@@ -16,10 +16,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	interchaintest "github.com/strangelove-ventures/interchaintest/v7"
-	"github.com/strangelove-ventures/interchaintest/v7/chain/cosmos"
-	"github.com/strangelove-ventures/interchaintest/v7/ibc"
-	"github.com/strangelove-ventures/interchaintest/v7/testutil"
+	interchaintest "github.com/strangelove-ventures/interchaintest/v8"
+	"github.com/strangelove-ventures/interchaintest/v8/chain/cosmos"
+	"github.com/strangelove-ventures/interchaintest/v8/ibc"
+	"github.com/strangelove-ventures/interchaintest/v8/testutil"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap/zaptest"
 	"golang.org/x/sync/errgroup"
@@ -105,7 +105,7 @@ func CreateTx(t *testing.T, ctx context.Context, chain *cosmos.CosmosChain, user
 	txBuilder, err := txf.BuildUnsignedTx(msgs...)
 	require.NoError(t, err)
 
-	require.NoError(t, tx.Sign(txf, cc.GetFromName(), txBuilder, true))
+	require.NoError(t, tx.Sign(ctx, txf, cc.GetFromName(), txBuilder, true))
 
 	// encode and return
 	bz, err := cc.TxConfig.TxEncoder()(txBuilder.GetTx())
@@ -274,7 +274,7 @@ func QueryAccountBalance(t *testing.T, chain ibc.Chain, address, denom string) i
 	// get nodes
 	balance, err := cosmosChain.GetBalance(context.Background(), address, denom)
 	require.NoError(t, err)
-	return balance
+	return balance.Int64()
 }
 
 // QueryAccountSequence

@@ -2,12 +2,12 @@ package integration_test
 
 import (
 	"fmt"
+	"github.com/strangelove-ventures/interchaintest/v8"
 	"testing"
 
 	testutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
-	"github.com/strangelove-ventures/interchaintest/v7"
-	"github.com/strangelove-ventures/interchaintest/v7/chain/cosmos"
-	"github.com/strangelove-ventures/interchaintest/v7/ibc"
+	"github.com/strangelove-ventures/interchaintest/v8/chain/cosmos"
+	"github.com/strangelove-ventures/interchaintest/v8/ibc"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/skip-mev/block-sdk/tests/integration"
@@ -44,25 +44,23 @@ var (
 		NumFullNodes:  &numFullNodes,
 		Version:       "latest",
 		NoHostMount:   &noHostMount,
-		GasAdjustment: &gasAdjustment,
 		ChainConfig: ibc.ChainConfig{
 			EncodingConfig: encodingConfig,
 			Images: []ibc.DockerImage{
 				image,
 			},
-			Type:                   "cosmos",
-			Name:                   "block-sdk",
-			Denom:                  denom,
-			ChainID:                "chain-id-0",
-			Bin:                    "testappd",
-			Bech32Prefix:           "cosmos",
-			CoinType:               "118",
-			GasAdjustment:          gasAdjustment,
-			GasPrices:              fmt.Sprintf("0%s", denom),
-			TrustingPeriod:         "48h",
-			NoHostMount:            noHostMount,
-			UsingNewGenesisCommand: true,
-			ModifyGenesis:          cosmos.ModifyGenesis(genesisKV),
+			Type:           "cosmos",
+			Name:           "block-sdk",
+			Denom:          denom,
+			ChainID:        "chain-id-0",
+			Bin:            "testappd",
+			Bech32Prefix:   "cosmos",
+			CoinType:       "118",
+			GasAdjustment:  gasAdjustment,
+			GasPrices:      fmt.Sprintf("0%s", denom),
+			TrustingPeriod: "48h",
+			NoHostMount:    noHostMount,
+			ModifyGenesis:  cosmos.ModifyGenesis(genesisKV),
 		},
 	}
 )
